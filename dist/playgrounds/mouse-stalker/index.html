@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja" style="--pcdw: 1400; --spdw: 375; --bp: 769;" data-overlayscrollbars-initialize>
+<head>
+  <meta name="robots" content="noindex,nofollow">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=aa"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag('js', new Date());
+  gtag('config', 'xxx');
+  </script>
+  <title>mouse-stalker | JWS Playgrounds</title>
+  <link rel="canonical" href="https://www.jws.work/playgrounds/mouse-stalker/">
+  <meta name="description" content="フロントエンドアニメーションの作品集。リアルタイムで動作するデモとコードサンプルを通じて、実装の詳細をご紹介します。">
+  <meta property="og:title" content="mouse-stalker | JWS Playgrounds">
+  <meta property="og:description" content="フロントエンドアニメーションの作品集。リアルタイムで動作するデモとコードサンプルを通じて、実装の詳細をご紹介します。">
+  <meta property="og:url" content="https://www.jws.work/playgrounds/mouse-stalker/">
+  <meta property="og:image" content="/playgrounds/mouse-stalker/assets/images/ogp.webp">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="mouse-stalker | JWS Playgrounds">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="shortcut icon" href="/playgrounds/mouse-stalker/assets/images/favicon.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" media="print" onload="this.media='all';">
+  <link rel="stylesheet" href="/playgrounds/mouse-stalker/assets/css/main.css">
+  <script type="module" src="/playgrounds/mouse-stalker/assets/js/entry.js"></script>
+</head>
+<body class="js-scroll" data-overlayscrollbars-initialize>
+  <div class="l_wrap">
+    <header class="l_header">
+      <div class="l_header_logo"> <a href="https://jws.work/" class="u_flash"> <span class="u_flash_item"> <svg class="c_svg" width="88" height="24" role="img" aria-label="JWS" data-type="vw" style="--pcw:88px;--pch:24px;--spw:65px;--sph:17.5px;">
+              <use href="/playgrounds/mouse-stalker/assets/svg/logo.svg#logo"></use>
+            </svg> </span> </a> </div>
+      <div class="l_header_gh"> <a class="u_flash" href="https://github.com/jws-playgrounds/mouse-stalker" target="_blank" rel="noopener noreferrer"> <span class="u_flash_item"> <svg class="c_svg" width="26" height="26" role="img" aria-label="GitHub" data-type="vw" style="--pcw:26px;--pch:26px;--spw:29px;--sph:29px;">
+              <use href="/playgrounds/mouse-stalker/assets/svg/logo_gh.svg#logo_gh"></use>
+            </svg> </span> </a> </div>
+    </header>
+    <main class="l_main">
+      <div class="contents">
+        <div class="btn"><a href="#">Button</a></div>
+      </div>
+      <div class="stoker"></div>
+    </main>
+    <footer class="l_footer">©JWS</footer>
+  </div>
+</body>
+</html>
+<style>
+.contents {
+  height: calc(var(--vph) * 1px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.stoker {
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border: 1px solid #fff;
+  z-indes: 1000;
+  transition: transform ease 0.2s;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  mix-blend-mode: difference;
+}
+.stoker.is-active {
+  transform: scale(0.5);
+}
+.btn {
+  display: inline-block;
+  width: 160px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1;
+  border: 1px solid #fff;
+}
+.btn a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  padding: 16px;
+  background-color: #000;
+  transition: 0.3s all ease;
+}
+.btn a:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+</style>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.1/TweenMax.min.js"></script>
+<script defer>
+var stalker = $('.stoker'),
+  stokerWidth = 30,
+  delay = 6,
+  mouseX = 0,
+  mouseY = 0,
+  posX = 0,
+  posY = 0;
+TweenMax.to({}, 0.001, {
+  repeat: -1,
+  onRepeat: function() {
+    posX += (mouseX - posX) / delay;
+    posY += (mouseY - posY) / delay;
+    TweenMax.set(stalker, {
+      css: {
+        left: posX - stokerWidth / 2,
+        top: posY - stokerWidth / 2,
+      },
+    });
+  },
+});
+$(document).on('mousemove', function(e) {
+  mouseX = e.pageX;
+  mouseY = e.pageY;
+});
+$('a').on({
+  mouseenter: function() {
+    stalker.addClass('is-active');
+  },
+  mouseleave: function() {
+    stalker.removeClass('is-active');
+  },
+});
+</script>

@@ -1,9 +1,103 @@
 ---
 import Layout from '@layouts/Layout.astro';
-const gh = '';
-const title = '';
+const gh = 'https://github.com/jws-playgrounds/mouse-stalker';
+const title = 'mouse-stalker';
 ---
 
 <Layout pageId='top' gh={gh} title={title}>
-  <div class='container'></div>
+  <div class='contents'>
+    <div class='btn'><a href='#'>Button</a></div>
+  </div>
+  <div class='stoker'></div>
 </Layout>
+
+<style is:inline>
+  .contents {
+    height: calc(var(--vph) * 1px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .stoker {
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border: 1px solid #fff;
+    z-indes: 1000;
+    transition: transform ease 0.2s;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    mix-blend-mode: difference;
+  }
+  .stoker.is-active {
+    transform: scale(0.5);
+  }
+
+  .btn {
+    display: inline-block;
+    width: 160px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 1;
+    border: 1px solid #fff;
+  }
+  .btn a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    padding: 16px;
+    background-color: #000;
+    transition: 0.3s all ease;
+  }
+  .btn a:hover {
+    background-color: #fff;
+    color: #000;
+  }
+</style>
+
+<script is:inline src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
+<script
+  is:inline
+  src='https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.1/TweenMax.min.js'
+></script>
+<script is:inline defer>
+  var stalker = $('.stoker'),
+    stokerWidth = 30,
+    delay = 6,
+    mouseX = 0,
+    mouseY = 0,
+    posX = 0,
+    posY = 0;
+
+  TweenMax.to({}, 0.001, {
+    repeat: -1,
+    onRepeat: function () {
+      posX += (mouseX - posX) / delay;
+      posY += (mouseY - posY) / delay;
+      TweenMax.set(stalker, {
+        css: {
+          left: posX - stokerWidth / 2,
+          top: posY - stokerWidth / 2,
+        },
+      });
+    },
+  });
+
+  $(document).on('mousemove', function (e) {
+    mouseX = e.pageX;
+    mouseY = e.pageY;
+  });
+
+  $('a').on({
+    mouseenter: function () {
+      stalker.addClass('is-active');
+    },
+    mouseleave: function () {
+      stalker.removeClass('is-active');
+    },
+  });
+</script>
